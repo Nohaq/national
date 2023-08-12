@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->string('content');
-            $table->string('referenc');
-            $table->foreignId('subject_id');
-            $table->foreignId('term_id')->constrained();
-            $table->foreignId('specialization_id')->constrained();
-            $table->foreignId('collage_id')->constrained();
+            $table->string('subject_name');
+            $table->foreignId('collage_id');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('subjects');
     }
 };

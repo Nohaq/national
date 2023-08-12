@@ -26,6 +26,7 @@ class QuestionFactory extends Factory
             'content'=>$this->faker->name,
             'referenc'=>$this->faker->imageUrl,
             'term_id'=>Term::all()->random()->id,
+            'subject_id'=>Term::all()->random()->id,
             'specialization_id'=>Specialization::all()->random()->id,
             'collage_id'=>Collage::all()->random()->id
             //
