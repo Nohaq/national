@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuestionResource extends JsonResource
@@ -15,12 +16,12 @@ class QuestionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'uuid'=>$this->uuid,
-            'conent' => $this->content,
+            // 'uuid'=>$this->uuid,
+            'content' => $this->content,
             'referenc' => $this->referenc,
             'specilaization'=>new SpecializationResource($this->whenLoaded('specialization')),
             'collage'=>new CollageResource($this->whenLoaded('collage')),
-            'term_name'=>new TermResource($this->whenLoaded('term')),
+            // 'term_name'=>new TermResource($this->whenLoaded('term')),
             'Answers'=>new AnswerCollection($this->whenLoaded('answers')),
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(), 

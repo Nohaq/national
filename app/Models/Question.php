@@ -13,6 +13,7 @@ class Question extends Model
     protected $fillable=[
         'content',
         'term_id',
+        'subject_id',
         'specialization_id',
         'collage_id',
         'uuid',
@@ -26,17 +27,20 @@ class Question extends Model
         'specialization_id'=>'integer',
         'collage_id'=>'integer'
     ];
+    // public function term(){
+    //     return $this->belongTo(Term::class);
+    // }
     public function term(){
-        return $this->belongTo(Terms::class);
+        return $this->belongsTo(Term::class);
     }
-    
+
     public function specialization(){
-        return $this->belongTo(Specialization::class);
+        return $this->belongsTo(Specialization::class);
     }
     public function collage(){
-        return $this->belongTo(Collage::class);
+        return $this->belongsTo(Collage::class);
     }
-    public function answers(){
+       public function answers(){
         return $this->hasMany(Answer::class);
     }
 
