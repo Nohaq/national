@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Code extends Model
 {
     use HasFactory;use SoftDeletes;
-    protected $fillable=['value','user_id','specialization_id'];
+    protected $fillable=['uuid','value','user_id','specialization_id'];
     protected $casts=[
         'id'=>'integer',
         'uuid'=>'string',
