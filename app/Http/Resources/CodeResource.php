@@ -14,6 +14,9 @@ class CodeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+          'value'=>  $this->value,
+           'specialization_id'=> $this->specialization_id
+        ];
     }
 }

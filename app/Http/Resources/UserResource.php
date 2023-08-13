@@ -18,7 +18,8 @@ class UserResource extends JsonResource
             'uuid'=>$this->uuid,
             'name' => $this->user_name,
             'phone' => $this->phone,
-            // 'code'=>new CodeCollection($this->codes()),
+            'code'=>new CodeCollection($this->codes),
+            // 'code'=>$this->codes,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(), 
         
