@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\Specialization::factory(20)->create();
         \App\Models\Code::factory(20)->create();
         \App\Models\Term::factory(20)->create();
-        \App\Models\Question::factory(1000)->create();
-        \App\Models\Answer::factory(5000)->create();
+        \App\Models\Question::factory(10)->create();
+        \App\Models\Answer::factory(50)->create();
         \App\Models\Code::factory(20)->create();
-        \App\Models\Favorite::factory(300)->create();
+        \App\Models\Favorite::factory(5)->create();
 
 
 
