@@ -37,6 +37,10 @@ class AuthController extends Controller
             return $this->apiResponse(null,false,$validator->errors(),300);
         }
         try{
+            if(User::all()->where('phone',$request['phone'])){
+                return $this->apiResponse(null,false,'phone already registerd',300);
+  
+            }
         $user = User::create([
             'user_name' => $request->user_name,
             'phone' => $request->phone,
@@ -74,7 +78,7 @@ class AuthController extends Controller
     {
         $validator =Validator::make($request->all(),[
             'user_name' => 'required|string',
-            'code' => 'required|string|max:10'
+            'code' => 'required|string|size:6'
         ]);
         if($validator->fails())
         {
@@ -90,8 +94,8 @@ class AuthController extends Controller
                 return $this->apiResponse([new UserResource($user),$token],true, 'User has logged in successfully.',200);
             }
         catch(\Exception $ex)
-        {
-            return $this->apiResponse(null,false, $ex->getMessage(),500);
+        {return 'f';
+            // return $this->apiResponse(null,false, $ex->getMessage(),500);
         }
     }
 
