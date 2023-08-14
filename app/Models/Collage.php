@@ -17,13 +17,22 @@ class Collage extends Model
         'category_id'=>'integer',
     ];
     public function category(){
-        return $this->belongTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
     public function questions(){
         return $this->hasMany(Question::class);
     }
+    public function codes(){
+        return $this->hasMany(Code::class);
+    }
     public function specialization(){
         return $this->hasMany(Specialization::class);
+    }
+    public function subjects(){
+        return $this->hasMany(Subject::class);
+    }
+    public function terms(){
+        return $this->hasMany(Term::class);
     }
    
 }

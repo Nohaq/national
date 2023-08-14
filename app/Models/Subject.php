@@ -20,4 +20,11 @@ class Subject extends Model
         'subject_name'=>'string',
         'collage_id'=>'integer'
     ];
+    public function collage(){
+        return $this->belongsTo(Collage::class);
+    }
+    public function questions(){
+        return $this->hasMany(Question::class);
+    }
+
 }

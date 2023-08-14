@@ -21,6 +21,7 @@ class SubjectFactory extends Factory
         return [
             'uuid'=>Str::uuid(),
             'subject_name'=>$this->faker->name(),
+            
             'collage_id'=>Collage::all()->random()->id
         ];
     }

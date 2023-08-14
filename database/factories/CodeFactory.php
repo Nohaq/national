@@ -23,7 +23,7 @@ class CodeFactory extends Factory
             'value'=>$this->faker->randomNumber(),
             'user_id'=>User::all()->random()->id,
 
-            'specialization_id'=>User::all()->random()->id,
+            'collage_id'=>User::all()->random()->id,
         ];
     }
 }

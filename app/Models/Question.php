@@ -43,5 +43,8 @@ class Question extends Model
        public function answers(){
         return $this->hasMany(Answer::class);
     }
+    public function subject(){
+        return $this->belongsTo(Subject::class);
+    }
 
 }

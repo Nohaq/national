@@ -22,8 +22,9 @@ class Specialization extends Model
     public function collage(){
         return $this->belongsTo(Collage::class);
     }
-    // public function terms(){
-    //     return $this->hasMany(Term::class);
-    // }
+    public function terms(){
+        return $this->hasMany(Term::class);
+    }
+    
     
 }

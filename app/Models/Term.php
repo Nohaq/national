@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Term extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable=['term_name','specilazation_id','uuid'];
+    protected $fillable=['term_name','specialization_id','collage_id','type','uuid'];
     protected $casts=[
         'id'=>'integer',
         'uuid'=>'string',
@@ -18,6 +18,12 @@ class Term extends Model
     ];
     public function questions(){
         return $this->hasMany(Question::class);
+    }
+    public function specialization(){
+        return $this->belongsTo(Specialization::class);
+    }
+    public function collage(){
+        return $this->belongsTo(Collage::class);
     }
 
 }

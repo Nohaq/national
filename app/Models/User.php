@@ -49,8 +49,8 @@ class User extends Authenticatable
         'phone'=>'string'
     ];
 
-    public function codes(){
-        return $this->hasMany(Code::class);
+    public function code(){
+        return $this->hasOne(Code::class);
     }
     public function favorites(){
         return $this->hasMany(Favorite::class);
