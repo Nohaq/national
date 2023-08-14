@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Term::factory(3)->create();
         \App\Models\Question::factory(10)->create();
         \App\Models\Answer::factory(40)->create();
+        \App\Models\Subject::factory(8)->create();
         // \App\Models\Favorite::factory(5)->create();
 
 

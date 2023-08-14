@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('value');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('specialization_id')->constrained();
+            $table->foreignId('collage_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
         });

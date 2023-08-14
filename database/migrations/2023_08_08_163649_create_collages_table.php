@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('collage_name');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->foreignId('category_id')->constrained();
             $table->softDeletes();
 

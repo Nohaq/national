@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Code extends Model
 {
     use HasFactory;use SoftDeletes;
-    protected $fillable=['uuid','value','user_id','specialization_id'];
+    protected $fillable=['uuid','value','user_id','collage_id'];
     protected $casts=[
         'id'=>'integer',
         'uuid'=>'string',
@@ -21,8 +21,8 @@ class Code extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function specialization(){
-        return $this->belongTo(Specialization::class);
+    public function collage(){
+        return $this->belongsTo(Collage::class);
     }
 
 }
