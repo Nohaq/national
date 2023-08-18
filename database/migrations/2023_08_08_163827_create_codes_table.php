@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('value');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('collage_id')->constrained();
+            $table->unique(['user_id','collage_id']);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Str;
@@ -22,7 +23,6 @@ class CodeFactory extends Factory
             'uuid'=>Str::uuid(),
             'value'=>$this->faker->randomNumber(),
             'user_id'=>User::all()->random()->id,
-
             'collage_id'=>User::all()->random()->id,
         ];
     }

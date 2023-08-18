@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\CodeCollection;
+use App\Http\Resources\CodeResource;
 use App\Http\Resources\UserResource;
 use App\Models\Code;
 use App\Models\User;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Constraint\IsEmpty;
 use Validator;
 
 class AuthController extends Controller
@@ -17,37 +20,36 @@ class AuthController extends Controller
     use GeneralTrait;
     public function register(Request $request)
     {
-    //    if( $request->validated($request->only(['user_name', 'phone']))){
-    //     return 'gggggggg';
-    //     return $this->apiResponse([null,validator()->errors(),false,300
-          
-    //     ]);
-
-    //    };
-        
-
-        //  $request->validated($request->only(['user_name', 'phone']));
-
         $validator =Validator::make($request->all(),[
             'user_name' => 'required|string',
-            'phone' => 'required|string|size:10'
+            'phone' => 'required|string|size:10|starts_with:09'
         ]);
         if($validator->fails())
         {
-            return $this->apiResponse(json_encode([], JSON_FORCE_OBJECT),false,$validator->errors(),300);
+            return $this->apiResponse( json_decode('{}'),false,$validator->errors(),300);
         }
         try{
-            // $x=User::all()->where('phone',$request['phone']);
-            // if(!empty($x)){
-            //     // return $this->apiResponse(null,false,'phone already registerd',300);
-            //     return $x;
-            // }
-        $user = User::create([
-            'user_name' => $request->user_name,
-            'phone' => $request->phone,
-            'role'=>'normal',
-            'uuid'=> Str::uuid(),        
+           $isRegiserdWithPhone=User::all()->where('phone',$request['phone'])->first();
+           if (!isset($isRegiserdWithPhone))
+           {
+            $user = User::create([
+                'user_name' => $request->user_name,
+                'phone' => $request->phone,
+                'role'=>'normal',
+                'uuid'=> Str::uuid(),        
         ]);
+    }
+    else 
+
+    $user=$isRegiserdWithPhone;
+    $isRegisteredWithCollage=Code::all()
+    ->where('user_id',$user->id)
+    ->where('collage_id',$request['collage_id'])->first();
+    if (isset($isRegisteredWithCollage)){
+        return $this->apiResponse( $user->codes,false,
+                                    'you have already registerid this collage',300);
+    }else {
+
         $code = random_int(100000,999999);
         $codeRow=[
             'uuid'=> Str::uuid(),
@@ -55,16 +57,8 @@ class AuthController extends Controller
             'collage_id'=>$request->collage_id,
             'user_id'=>$user->id];
             $genertedCode=Code::create($codeRow);
-            if(!$genertedCode){
-                $user->delete();
-                return $this->apiResponse(json_encode([], JSON_FORCE_OBJECT),'connection error',false,500);
-            }
-            return $this->apiResponse(
-            //     'user' => new UserResource($user),
-            //     'token' => $user->createToken('API Token')->plainTextToken
-            // ]
-            json_decode('{}')
-            ,null,'succes register',200);
+            return $this->apiResponse( json_decode('{}'),true,'succes register',200);
+        }
     }
     catch(\Exception $ex)
     {
