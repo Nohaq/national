@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollageController;
+use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\test;
 use App\Models\Collage;
 use Illuminate\Http\Request;
@@ -26,6 +28,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/oneq',[test::class,'one']);
+Route::get('/categories',[CategoryController::class,'index']);
+Route::get('/category/{uuid}',[CategoryController::class,'categoryById']);
 
 Route::get('/collages',[CollageController::class,'index']);
+Route::get('/specializationOfCollage/{uuid}',[CollageController::class,'collageById']);
+// Route::get('/specilization/{uuid}',[SpecializationController::class,'specializationOfCollage']);

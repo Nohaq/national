@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Traits\GeneralTrait;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use GeneralTrait;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+            $category=Category::with('collages')->get();
+            return $this->apiResponse($category,true,'succes',200);
     }
 
     /**
@@ -48,6 +50,13 @@ class CategoryController extends Controller
     {
         //
     }
+    public function categoryById($uuid){
+        $category=Category::with('collages')->where('uuid',$uuid)->get();
+        return $this->apiResponse($category,true,'succes',300);
+
+
+    }
+  
 
     /**
      * Show the form for editing the specified resource.

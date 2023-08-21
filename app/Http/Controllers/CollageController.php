@@ -19,6 +19,12 @@ class CollageController extends Controller
         return $this->apiResponse($collage,true,'succes',300);
         
     }
+    public function collageById($uuid){
+        $Collage=Collage::with('specialization')->where('uuid',$uuid)->get();
+        return $this->apiResponse($Collage,true,'succes',300);
+
+
+    }
 
     /**
      * Show the form for creating a new resource.

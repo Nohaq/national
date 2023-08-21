@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collage;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,6 @@ class SpecializationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
