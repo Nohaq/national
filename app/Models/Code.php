@@ -19,10 +19,12 @@ class Code extends Model
         
     ];
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Code::class);
     }
     public function collage(){
         return $this->belongsTo(Collage::class);
     }
+    
+    
 
 }

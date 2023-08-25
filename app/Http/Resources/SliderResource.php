@@ -18,8 +18,8 @@ class SliderResource extends JsonResource
         'uuid'=>$this->uuid,
         'link' => $this->link,
         'image' => $this->image,
-        'created_at' => $this->created_at->diffForHumans(),
-        'updated_at' => $this->updated_at->diffForHumans(), 
+        // 'created_at' => $this->created_at->diffForHumans(),
+        // 'updated_at' => $this->updated_at->diffForHumans(), 
     
     ];
     }

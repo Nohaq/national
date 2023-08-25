@@ -14,6 +14,11 @@ class NotificationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+     return[
+         'uuid'=>$this->uuid,
+         'title' => $this->content,
+         'content' => $this->content,
+    ];
+       
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\CategoryResource;
 use App\Traits\GeneralTrait;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -14,9 +15,15 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {try{
             $category=Category::with('collages')->get();
-            return $this->apiResponse($category,true,'succes',200);
+            return $this->apiResponse(CategoryResource::collection($category),true,'succes',200);
+    }
+    catch(\Exception $ex)
+    {
+        return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+    }
+   
     }
 
     /**
@@ -51,8 +58,15 @@ class CategoryController extends Controller
         //
     }
     public function categoryById($uuid){
+        try{
         $category=Category::with('collages')->where('uuid',$uuid)->get();
-        return $this->apiResponse($category,true,'succes',300);
+        return $this->apiResponse(new CategoryResource( $category),true,'succes',200);
+    }
+    catch(\Exception $ex)
+    {
+        return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+    }
+
 
 
     }

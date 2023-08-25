@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Favorite;
 
 class Question extends Model
 {
@@ -46,5 +47,9 @@ class Question extends Model
     public function subject(){
         return $this->belongsTo(Subject::class);
     }
+    public function favourites(){
+        return $this->hasMany(Favorite::class);
+    }
+    
 
 }

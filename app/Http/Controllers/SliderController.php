@@ -2,19 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SliderResource;
+use App\Http\Traits\GeneralTrait;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
+      use GeneralTrait;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function index()
     {
-        //
+        
+    }
+    public function sliders(){
+        try{
+            $sliders=Slider::all();
+            if (isset($sliders)){
+                return $this->apiResponse(SliderResource::collection($sliders),true, "all sliders",200);
+     
+            }
+            else{
+                return $this->apiResponse(response()->json([]),false,"no sliders found",200);
+            }
+            
+        }
+        catch(\Exception $ex)
+        {
+            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+        }
+       
     }
 
     /**

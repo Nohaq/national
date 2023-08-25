@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CollageResource;
 use App\Models\Collage;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
@@ -15,15 +16,41 @@ class CollageController extends Controller
      */
     public function index()
     {
-        $collage=Collage::all();
-        return $this->apiResponse($collage,true,'succes',300);
+        try{
+        $collage=Collage::with('category')->get();
+        return $this->apiResponse(CollageResource::collection( $collage),true,'succes',200);
+        }
+        catch(\Exception $ex)
+        {
+            return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
+        }
         
     }
     public function collageById($uuid){
-        $Collage=Collage::with('specialization')->where('uuid',$uuid)->get();
-        return $this->apiResponse($Collage,true,'succes',300);
+        try{
+            $Collage=Collage::with('specialization')->where('uuid',$uuid)->get();
+            return $this->apiResponse($Collage,true,'succes',200);
+            
+        }
+        catch(\Exception $ex)
+        {
+            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+        }
+       
 
 
+    }
+    public function subjects($uuid){
+        try{
+        $Collage=Collage::with('subjects')->where('uuid',$uuid)->get();
+        return $this->apiResponse($Collage,true,'succes',200);
+        }
+        catch(\Exception $ex)
+        {
+            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+        }
+       
+        
     }
 
     /**

@@ -57,7 +57,9 @@ class AuthController extends Controller
             'collage_id'=>$request->collage_id,
             'user_id'=>$user->id];
             $genertedCode=Code::create($codeRow);
-            return $this->apiResponse( json_decode('{}'),true,'succes register',200);
+            // return $this->apiResponse( json_decode('{}'),true,'succes register',200);
+
+            return $this->apiResponse( response()->json(['code'=>$code]),true,'succes register',200);
         }
     }
     catch(\Exception $ex)
@@ -74,20 +76,25 @@ class AuthController extends Controller
         ]);
         if($validator->fails())
         {
-            return $this->apiResponse(null,false,$validator->errors(),300);
+            return $this->apiResponse(response()->json([]),false,$validator->errors(),300);
         }
         try {
             $user = User::where('user_name',$request['user_name'])
-                ->whereRelation('code','value',$request['code'])->first();
+                ->whereRelation('codes','value',$request['code'])->first();
                 if (!$user) {
-                    return $this->apiResponse(null,false,'in correct code or username',403);
+                    return $this->apiResponse(json_decode('{}'),false,'in correct code or username',403);
                 }
                 $token = $user->createToken('apiToken')->plainTextToken;
-                return $this->apiResponse([new UserResource($user),$token],true, 'User has logged in successfully.',200);
+                $data=[
+                    'user'=>new UserResource($user),
+                    'token'=>$token,
+                    'collage'=>Code::all()->where('value',$request['code'])->first()->collage,
+                ];
+                return $this->apiResponse($data,true, 'User has logged in successfully.',200);
             }
         catch(\Exception $ex)
         {
-            return $this->apiResponse(null,false, $ex->getMessage(),500);
+            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
         }
     }
 
