@@ -27,11 +27,11 @@ class SliderController extends Controller
         try{
             $sliders=Slider::all();
             if (isset($sliders)){
-                return $this->apiResponse(SliderResource::collection($sliders),true, "all sliders",200);
+                return $this->apiResponse(SliderResource::collection($sliders),'all sliders', "",200);
      
             }
             else{
-                return $this->apiResponse(response()->json([]),false,"no sliders found",200);
+                return $this->apiResponse(json_decode('{}'),false,"no sliders found",200);
             }
             
         }

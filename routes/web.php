@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/oneq',[test::class,'one']);
+// Route::get('/oneq',[test::class,'one']);
 Route::post('/register', [AuthController::class, 'register']);

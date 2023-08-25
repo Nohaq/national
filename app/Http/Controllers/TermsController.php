@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Terms;
+use App\Http\Resources\TermResource;
+use App\Models\Collage;
+use App\Models\Term;
 use Illuminate\Http\Request;
+use App\Http\Traits\GeneralTrait;
 
 class TermsController extends Controller
 {
+    use GeneralTrait;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
@@ -82,4 +87,28 @@ class TermsController extends Controller
     {
         //
     }
+    public function terms($type,$uuid){
+        try{
+            $collage=Collage::where('uuid',$uuid)->first()->id;
+            // return $collage;
+            $Terms=Term::all()->where('type',$type)->where('collage_id',$collage);
+            return $this->apiResponse(TermResource::collection($Terms),'succes','',200);
+    }
+    catch(\Exception $ex)
+    {
+        return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
+    }
+
+    }
+    // public function graduteTerms(){
+    //     try{
+    //         $masterTerms=Terms::all()->where('type','gradute')->with('questions')->get();
+    //         return $this->apiResponse(TermResource::collection($masterTerms),true,'succes',200);
+    // }
+    // catch(\Exception $ex)
+    // {
+    //     return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
+    // }
+        
+    // }
 }

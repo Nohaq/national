@@ -57,14 +57,14 @@ class AuthController extends Controller
             'collage_id'=>$request->collage_id,
             'user_id'=>$user->id];
             $genertedCode=Code::create($codeRow);
-            // return $this->apiResponse( json_decode('{}'),true,'succes register',200);
+            // return $this->apiResponse( json_decode('{}'),true,'',200);
 
-            return $this->apiResponse( response()->json(['code'=>$code]),true,'succes register',200);
+            return $this->apiResponse( response()->json(['code'=>$code]),true,'',200);
         }
     }
     catch(\Exception $ex)
     {
-        return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+        return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
     }
         
     }
@@ -76,7 +76,7 @@ class AuthController extends Controller
         ]);
         if($validator->fails())
         {
-            return $this->apiResponse(response()->json([]),false,$validator->errors(),300);
+            return $this->apiResponse(json_decode('{}'),false,$validator->errors(),300);
         }
         try {
             $user = User::where('user_name',$request['user_name'])
@@ -90,17 +90,17 @@ class AuthController extends Controller
                     'token'=>$token,
                     'collage'=>Code::all()->where('value',$request['code'])->first()->collage,
                 ];
-                return $this->apiResponse($data,true, 'User has logged in successfully.',200);
+                return $this->apiResponse($data,'User has logged in successfully.', '',200);
             }
         catch(\Exception $ex)
         {
-            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+            return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
         }
     }
 
     public function logout(Request $request)
     {
         auth('sanctum')->user()->tokens()->delete();
-        return $this->apiResponse(null,true,'User has logged out successfully.' ,200);
+        return $this->apiResponse(json_decode('{}'),'User has logged out successfully.','' ,200);
    }    
 }

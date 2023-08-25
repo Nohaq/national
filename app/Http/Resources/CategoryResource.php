@@ -18,6 +18,9 @@ class CategoryResource extends JsonResource
             'uuid'=>$this->uuid,
             'category_name'=>$this->category_name,
             'logo'=>$this->logo,
+            'collage'=>CollageResource::collection( $this->whenLoaded('collages')),
+
+
 
         ];
     }

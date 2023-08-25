@@ -13,6 +13,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function one(){
-        return $q=new QuestionResource(Question::find(1));
+        return auth()->check();
     }
 }
