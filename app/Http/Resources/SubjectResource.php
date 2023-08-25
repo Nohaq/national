@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class SubjectResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class AnswerResource extends JsonResource
     {
         return [
             'uuid'=>$this->uuid,
-            'content'=>$this->content,
-            'isTrue'=>$this->istrue,
-            
+            'asubject_name'=>$this->subject_name,
+            'collage'=>new CollageResource($this->whenLoaded('collage'))
         ];
     }
 }

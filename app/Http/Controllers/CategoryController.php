@@ -14,14 +14,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {try{
+    public function index(Request $request)
+    {
+        try{
             $category=Category::with('collages')->get();
-            return $this->apiResponse(CategoryResource::collection($category),true,'succes',200);
+            return $this->apiResponse(CategoryResource::collection($category),'succes','',200);
     }
     catch(\Exception $ex)
     {
-        return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+        return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
     }
    
     }
@@ -60,11 +61,11 @@ class CategoryController extends Controller
     public function categoryById($uuid){
         try{
         $category=Category::with('collages')->where('uuid',$uuid)->get();
-        return $this->apiResponse(new CategoryResource( $category),true,'succes',200);
+        return $this->apiResponse(CategoryResource::collection( $category),'succes','',200);
     }
     catch(\Exception $ex)
     {
-        return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+        return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
     }
 
 

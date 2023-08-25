@@ -28,13 +28,13 @@ class CollageController extends Controller
     }
     public function collageById($uuid){
         try{
-            $Collage=Collage::with('specialization')->where('uuid',$uuid)->get();
-            return $this->apiResponse($Collage,true,'succes',200);
+            $Collage=Collage::with('specializations')->where('uuid',$uuid)->get();
+            return $this->apiResponse(CollageResource::collection($Collage),'succes','',200);
             
         }
         catch(\Exception $ex)
         {
-            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+            return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
         }
        
 
@@ -43,11 +43,11 @@ class CollageController extends Controller
     public function subjects($uuid){
         try{
         $Collage=Collage::with('subjects')->where('uuid',$uuid)->get();
-        return $this->apiResponse($Collage,true,'succes',200);
+        return $this->apiResponse(CollageResource::collection($Collage),'succes','',200);
         }
         catch(\Exception $ex)
         {
-            return $this->apiResponse(response()->json([]),false, $ex->getMessage(),500);
+            return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
         }
        
         

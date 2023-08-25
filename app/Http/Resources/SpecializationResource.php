@@ -17,7 +17,7 @@ class SpecializationResource extends JsonResource
          return [
         'uuid'=>$this->uuid,
         'name' => $this->specialization_name,
-        'collage' =>new CollageResource( $this->collage()),
+        'collage' =>new CollageResource( $this->whenLoaded('collage')),
         // 'created_at' => $this->created_at->diffForHumans(),
         // 'updated_at' => $this->updated_at->diffForHumans(), 
     

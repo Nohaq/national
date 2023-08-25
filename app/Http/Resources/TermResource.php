@@ -17,7 +17,7 @@ class TermResource extends JsonResource
         return [
             'uuid'=>$this->uuid,
             'term_name' => $this->term_name,
-            'specilization' =>new SpecializationResource( $this->specialization()),
+            // 'specilization' =>new SpecializationResource( $this->specialization()),
             // 'created_at' => $this->created_at->diffForHumans(),
             // 'updated_at' => $this->updated_at->diffForHumans(), 
         
