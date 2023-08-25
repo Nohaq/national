@@ -18,8 +18,8 @@ class SpecializationResource extends JsonResource
         'uuid'=>$this->uuid,
         'name' => $this->specialization_name,
         'collage' =>new CollageResource( $this->collage()),
-        'created_at' => $this->created_at->diffForHumans(),
-        'updated_at' => $this->updated_at->diffForHumans(), 
+        // 'created_at' => $this->created_at->diffForHumans(),
+        // 'updated_at' => $this->updated_at->diffForHumans(), 
     
     ];
     }

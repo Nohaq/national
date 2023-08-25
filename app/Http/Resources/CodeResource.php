@@ -16,7 +16,8 @@ class CodeResource extends JsonResource
     {
         return [
           'value'=>  $this->value,
-           'specialization_id'=> $this->specialization_id
+           'collage'=>new CollageResource( $this->whenLoaded('collage')),
+
         ];
     }
 }

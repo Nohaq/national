@@ -14,6 +14,11 @@ class ComplaintResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return[
+            'uuid'=>$this->uuid,
+            'content'=>$this->content,
+            'user'=>new UserResource($this->whenLoaded('user'))
+            
+        ];
     }
 }

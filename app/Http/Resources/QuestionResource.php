@@ -16,15 +16,15 @@ class QuestionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            // 'uuid'=>$this->uuid,
+            'uuid'=>$this->uuid,
             'content' => $this->content,
             'referenc' => $this->referenc,
             'specilaization'=>new SpecializationResource($this->whenLoaded('specialization')),
             'collage'=>new CollageResource($this->whenLoaded('collage')),
-            // 'term_name'=>new TermResource($this->whenLoaded('term')),
-            'Answers'=>new AnswerCollection($this->whenLoaded('answers')),
-            'created_at' => $this->created_at->diffForHumans(),
-            'updated_at' => $this->updated_at->diffForHumans(), 
+            'term_name'=>new TermResource($this->whenLoaded('term')),
+            'Answers'=>AnswerResource::collection($this->whenLoaded('answers')),
+            // 'created_at' => $this->created_at->diffForHumans(),
+            // 'updated_at' => $this->updated_at->diffForHumans(), 
         
         ];
     }

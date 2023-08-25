@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Middleware;
+use App\Http\Traits\GeneralTrait;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
-{
+{use GeneralTrait;
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *
@@ -16,6 +16,8 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
             return route('login');
+            // return $this->apiResponse( json_decode('{}'),false,'not auth',300);
+
         }
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Question;
 
 class Favorite extends Model
 {
@@ -16,10 +18,10 @@ class Favorite extends Model
         'question_id'=>'integer'
     ];
     public function user(){
-        return $this->belongTo(User::class);
+        return $this->belongsTo(User::class);
     }
     public function question(){
-        return $this->belongTo(Question::class);
+        return $this->belongsTo(Question::class);
     }
    
 }
