@@ -6,12 +6,15 @@ use App\Models\Collage;
 use App\Models\Question;
 use App\Models\Specialization;
 use App\Models\Subject;
+use App\Http\Resources\QuestionResource;
+use App\Http\Traits\GeneralTrait;
+use App\Models\Question;
 use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class QuestionController extends Controller
-{
+{use GeneralTrait;
     /**
      * Display a listing of the resource.
      *
@@ -133,5 +136,23 @@ class QuestionController extends Controller
  
          return redirect('/');
 
+    }
+    public function questionsOfTerm($uuid){
+        try{
+            $term=Term::where('uuid',$uuid)->first()->id;
+            // return $term;
+            if (isset($term)){
+                $qeustions=Question::where('term_id',$term)->with('answers')->get();
+                return 
+                $this->apiResponse(QuestionResource::collection($qeustions),'term question get succesfully','',500);
+            }
+            else 
+            return $this->apiResponse(json_decode('{}'),false,'term not found',403);
+
+        }
+        catch(\Exception $ex)
+        {
+            return $this->apiResponse(json_decode('{}'),false, $ex->getMessage(),500);
+        }
     }
 }

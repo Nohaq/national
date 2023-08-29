@@ -25,7 +25,7 @@ class Collage extends Model
     public function codes(){
         return $this->hasMany(Code::class);
     }
-    public function specialization(){
+    public function specializations(){
         return $this->hasMany(Specialization::class);
     }
     public function subjects(){

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\Answer::factory(40)->create();
         // \App\Models\Subject::factory(8)->create();
         // \App\Models\Favorite::factory(5)->create();
-        \App\Models\Slider::factory(8)->create();
+        // \App\Models\Slider::factory(8)->create();
 
 
 

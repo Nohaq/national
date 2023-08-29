@@ -45,3 +45,5 @@ Route::resource('/questions',QuestionController::class);
 Route::resource('/specializations',SpecializationController::class);
 Route::resource('/terms',TermsController::class);
 
+// Route::get('/oneq',[test::class,'one']);
+Route::post('/register', [AuthController::class, 'register']);

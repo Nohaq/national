@@ -18,6 +18,9 @@ class CollageResource extends JsonResource
             'uuid'=>$this->uuid,
             'collage_name'=>$this->collage_name,
             'logo'=>$this->logo,
+            'specialization'=>SpecializationResource::collection( $this->whenLoaded('specializations')),
+            'subjects'=>SubjectResource::collection( $this->whenLoaded('subjects')),
+
             
         ];
     }
