@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Collage;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class SpecializationController extends Controller
 {
@@ -13,7 +15,11 @@ class SpecializationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    public function index()
+    {
+        $specializations = Specialization::with('collage')->get();
+        return view('specializations.index',compact('specializations'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -21,7 +27,10 @@ class SpecializationController extends Controller
      */
     public function create()
     {
-        //
+        $collages = Collage::all();
+
+        return view('specializations.create', compact('collages'));
+
     }
 
     /**
@@ -32,7 +41,18 @@ class SpecializationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'specialization_name'=>'required|max:255',
+            'collage_id' => 'required',
+        ]);
+    
+        $specialization= Specialization::create([
+            'uuid' => Str::uuid(),
+            'specialization_name' => $request['specialization_name'],
+            'collage_id' => $request['collage_id'],
+        ]);
+    
+        return $specialization;
     }
 
     /**
@@ -41,9 +61,11 @@ class SpecializationController extends Controller
      * @param  \App\Models\Specialization  $specialization
      * @return \Illuminate\Http\Response
      */
-    public function show(Specialization $specialization)
+    public function show($id)
     {
-        //
+        $specialization = Specialization::find($id);
+        $collage = $specialization->collage;
+        return view('specializations.show',compact('specialization','collage'));
     }
 
     /**
@@ -52,9 +74,11 @@ class SpecializationController extends Controller
      * @param  \App\Models\Specialization  $specialization
      * @return \Illuminate\Http\Response
      */
-    public function edit(Specialization $specialization)
+    public function edit($id)
     {
-        //
+        $specialization = Specialization::find($id);
+        $collages = Collage::all();
+        return view('specializations.edit',compact('specialization','collages'));
     }
 
     /**
@@ -64,9 +88,15 @@ class SpecializationController extends Controller
      * @param  \App\Models\Specialization  $specialization
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Specialization $specialization)
+    public function update(Request $request, $id)
     {
-        //
+        $specialization = Specialization::find($id);
+        $input = $request->all();
+        $specialization->update($input);
+        $specialization->save();
+
+        return redirect('/');
+
     }
 
     /**
@@ -75,8 +105,11 @@ class SpecializationController extends Controller
      * @param  \App\Models\Specialization  $specialization
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Specialization $specialization)
+    public function destroy($id)
     {
-        //
+        $specialization=Specialization::find($id);
+        $specialization->forceDelete();
+ 
+         return redirect('/');
     }
 }

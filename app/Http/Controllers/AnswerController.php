@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+
 
 class AnswerController extends Controller
 {
@@ -14,7 +18,9 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        //
+        $answers = Answer::with('question')->orderBy('question_id', 'asc')->get();
+        return view('answers.index',compact('answers'));
+
     }
 
     /**
@@ -24,7 +30,10 @@ class AnswerController extends Controller
      */
     public function create()
     {
-        //
+        $questions = Question::all();
+
+        return view('answers.create', compact('questions'));
+
     }
 
     /**
@@ -35,8 +44,30 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content' => 'required',
+            'question_id' => 'required',
+            'istrue' => [
+                'required',
+                'boolean',
+                Rule::unique('answers', 'istrue')->where('istrue', true)->where('question_id', $request->get('question_id'))
+            ]
+        ]);
+    
+        // if ($request->get('istrue') && Answer::where('question_id', $request->get('question_id'))->where('istrue', true)->exists()) {
+        //     $this->errors->add('istrue', 'There can only be one true answer for each question.');
+        // }
+    
+        $answer = Answer::create([
+            'uuid' => Str::uuid(),
+            'content' => $request['content'],
+            'istrue' => $request['istrue'],
+            'question_id' => $request['question_id'],
+        ]);
+    
+        return $answer;
     }
+    
 
     /**
      * Display the specified resource.
@@ -44,9 +75,11 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function show(Answer $answer)
+    public function show($id)
     {
-        //
+        $answer = Answer::find($id);
+        $question = Question::find($answer->question_id);
+        return view('answers.show', compact('answer', 'question'));
     }
 
     /**
@@ -55,9 +88,12 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Answer $answer)
+    public function edit($id)
     {
-        //
+        $answer = Answer::find($id);
+        $questions = Question::all();
+        return view('answers.edit',compact('answer','questions'));
+
     }
 
     /**
@@ -67,9 +103,15 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Answer $answer)
+    public function update(Request $request, $id)
     {
-        //
+        $answer = Answer::find($id);
+        $input = $request->all();
+        $answer->update($input);
+        $answer->save();
+
+        return redirect('/');
+
     }
 
     /**
@@ -78,8 +120,12 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy($id)
     {
-        //
+        $answer=Answer::find($id);
+        $answer->forceDelete();
+ 
+         return redirect('/');
     }
+
 }

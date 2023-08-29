@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collage;
+use App\Models\Specialization;
+use App\Models\Term;
 use App\Models\Terms;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TermsController extends Controller
 {
@@ -14,7 +18,8 @@ class TermsController extends Controller
      */
     public function index()
     {
-        //
+        $terms = Term::with('specialization','collage')->get();
+        return view('terms.index',compact('terms'));
     }
 
     /**
@@ -24,7 +29,11 @@ class TermsController extends Controller
      */
     public function create()
     {
-        //
+        $specializations = Specialization::all();
+        $collages = Collage::all();
+
+        return view('terms.create', compact('specializations','collages'));
+
     }
 
     /**
@@ -35,7 +44,22 @@ class TermsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'term_name'=>'required|max:255',
+            'type' => 'required',
+            'specialization_id' => 'required',            
+            'collage_id' => 'required',
+        ]);
+    
+        $term= Term::create([
+            'uuid' => Str::uuid(),
+            'term_name' => $request['term_name'],
+            'type' => $request['type'],
+            'specialization_id' => $request['specialization_id'],
+            'collage_id' => $request['collage_id'],
+        ]);
+    
+        return $term;
     }
 
     /**
@@ -44,9 +68,12 @@ class TermsController extends Controller
      * @param  \App\Models\Terms  $terms
      * @return \Illuminate\Http\Response
      */
-    public function show(Terms $terms)
+    public function show($id)
     {
-        //
+        $term = Term::find($id);
+        $specialization = $term->specialization;
+        $collage = $term->collage;
+        return view('terms.show', compact('term', 'specialization', 'collage'));
     }
 
     /**
@@ -55,9 +82,13 @@ class TermsController extends Controller
      * @param  \App\Models\Terms  $terms
      * @return \Illuminate\Http\Response
      */
-    public function edit(Terms $terms)
+    public function edit($id)
     {
-        //
+        $term = Term::find($id);
+        $specializations = Specialization::all();
+        $collages = Collage::all();
+        return view('terms.edit',compact('term','specializations','collages'));
+
     }
 
     /**
@@ -67,9 +98,14 @@ class TermsController extends Controller
      * @param  \App\Models\Terms  $terms
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Terms $terms)
+    public function update(Request $request, $id)
     {
-        //
+        $term = Term::find($id);
+        $input = $request->all();
+        $term->update($input);
+        $term->save();
+
+        return redirect('/');
     }
 
     /**
@@ -78,8 +114,11 @@ class TermsController extends Controller
      * @param  \App\Models\Terms  $terms
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Terms $terms)
+    public function destroy($id)
     {
-        //
+        $term =Term::find($id);
+        $term->Delete();
+
+        return redirect('/');
     }
 }
